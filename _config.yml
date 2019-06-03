@@ -308,7 +308,7 @@ defaults:
       author_profile: true
   # _netcore
   - scope:
-      path: "collection/netcore"
+      path: ""
       type: netcore
     values:
       layout: single
