@@ -8,12 +8,12 @@ main:
     url: /sitemap/
 
 side-bar:
-  - title: Collection
+  - title: "Collection"
     children:
       - title: "NetCore"
         url: /netcore/
 
-  - title: 归档
+  - title: "归档"
     children:
       - title: "Categories"
         url: /categories/
