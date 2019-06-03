@@ -13,7 +13,7 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "zh-CN"
@@ -110,8 +110,8 @@ author:
   name             : "zhepama"
   avatar           : "https://s.gravatar.com/avatar/0930091f05ac4d1044c02dbd3d619cfe?s=80" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "I am an amazing person."
-  location         : "Somewhere"
-  email            :
+  location         : "China AnHui BengBu"
+  email            : "zhepama@gmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
@@ -143,7 +143,7 @@ footer:
       # url:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url:"https://github.com/zhepama"
+      url : "https://github.com/zhepama"
     - label: "GitLab"
       icon: "fab fa-fw fa-gitlab"
       # url:
@@ -205,7 +205,7 @@ kramdown:
   input: GFM
   hard_wrap: false
   auto_ids: true
-  footnote_nr: 1
+  footnote_nr: 1   
   entity_output: as_char
   toc_levels: 1..6
   smart_quotes: lsquo,rsquo,ldquo,rdquo
