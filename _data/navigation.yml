@@ -2,21 +2,30 @@
 main:
   - title: "首页"
     url: /
-  - title: "分类"
-    url: /categories/
-  - title: "标签"
-    url: /tags/
   - title: "关于"
-    url: /about
+    url: /about/
+  - title: "站点地图"
+    url: /sitemap/
 
 side-bar:
-  - title: 分类
+  - title: Collection
     children:
       - title: "NetCore"
-        url: /categories/#netcore
-      - title: "Unity"
-        url: /categories/#unity
-      - title: "Web"
-        url: /categories/#web
-      - title: "Tool"
-        url: /categories/#tool
+        url: /netcore/
+
+  - title: 归档
+    children:
+      - title: "Categories"
+        url: /categories/
+      - title: "Collection"
+        url: /collection-archive/
+      - title: "Page Archive"
+        url: /page-archive/
+      - title: "Post Archive with Feature Rows"
+        url: /post-archive-feature-rows/
+      - title: "Recipes"
+        url: /recipes/
+      - title: "Tags"
+        url: /tags/
+      - title: "Posts by Year"
+        url: /year-archive/
