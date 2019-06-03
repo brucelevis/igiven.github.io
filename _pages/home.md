@@ -4,6 +4,7 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: home
 permalink: /
+author_profile: false
 sidebar:
   nav: "side-bar"
 ---
