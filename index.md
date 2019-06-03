@@ -7,6 +7,3 @@ layout: home
 
 
 
-{% include footer.md %}
-
-{{ site.data.config.blog }}
