@@ -301,14 +301,14 @@ defaults:
       related: true
   # _pages
   - scope:
-      path: ""
+      path: "pages"
       type: pages
     values:
       layout: single
       author_profile: true
   # _netcore
   - scope:
-      path: ""
+      path: "collection/netcore"
       type: netcore
     values:
       layout: single
