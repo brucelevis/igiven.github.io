@@ -7,12 +7,13 @@ classes: wide
 pagination: 
   enabled: true
   category: dotnet
+  paginate_path: /dotnet/page:num/
 ---
 
 {{ content }}
 <div class="entries-{{ page.entries_layout }}">
-  {% for post in paginator.posts %}
-  {% include archive-single.html %}
+    {% for post in paginator.posts %}
+    {% include archive-single.html %}
   {% endfor %}
 </div>
 
