@@ -1,0 +1,19 @@
+---
+title: DotNet
+layout: archive
+permalink: /categories/dotnet/
+entries_layout: list
+classes: wide
+pagination: 
+  enabled: true
+  category: dotnet
+---
+
+{{ content }}
+<div class="entries-{{ page.entries_layout }}">
+  {% for post in paginator.posts %}
+  {% include archive-single.html %}
+  {% endfor %}
+</div>
+
+{% include paginator.html %}
