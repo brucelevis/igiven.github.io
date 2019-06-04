@@ -295,25 +295,25 @@ defaults:
       related: true
   #_posts-dotnet
   - scope:
-      path: "dotnet"
+      path: "_posts/dotnet"
       type: posts
     values:
       categories: dotnet
   #_posts-tool
   - scope:
-      path: "tool"
+      path: "_posts/tool"
       type: posts
     values:
       categories: tool
   #_posts-unity
   - scope:
-      path: "unity"
+      path: "_posts/unity"
       type: posts
     values:
       categories: unity
   #_posts-web
   - scope:
-      path: "web"
+      path: "_posts/web"
       type: posts
     values:
       categories: web
