@@ -10,8 +10,8 @@ main:
 side-bar:
   - title: "分类"
     children:
-      - title: "NetCore"
-        url: /category/netcore/
+      - title: "DotNet"
+        url: /category/dotnet/
       - title: "Unity"
         url: /category/unity/
       - title: "Web"
