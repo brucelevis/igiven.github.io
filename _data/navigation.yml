@@ -10,13 +10,13 @@ side-bar:
   - title: "分类"
     children:
       - title: "DotNet"
-        url: /categorys/dotnet/
+        url: /categories/dotnet/
       - title: "Unity"
-        url: /categorys/unity/
+        url: /categories/unity/
       - title: "Web"
-        url: /categorys/web/
+        url: /categories/web/
       - title: "Tool"
-        url: /categorys/tool/
+        url: /categories/tool/
 
   - title: "归档"
     children:
