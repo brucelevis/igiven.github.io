@@ -280,12 +280,6 @@ compress_html:
   ignore:
     envs: development
 
-
-collections:
-  netcore:
-    output: true
-    permalink: /:collection/:path/
-
 # Defaults
 defaults:
   # _posts
@@ -299,6 +293,30 @@ defaults:
       comments: true
       share: true
       related: true
+  #_posts-dotnet
+  - scope:
+      path: "dotnet"
+      type: posts
+    values:
+      categories: dotnet
+  #_posts-tool
+  - scope:
+      path: "tool"
+      type: posts
+    values:
+      categories: tool
+  #_posts-unity
+  - scope:
+      path: "unity"
+      type: posts
+    values:
+      categories: unity
+  #_posts-web
+  - scope:
+      path: "web"
+      type: posts
+    values:
+      categories: web
   # _pages
   - scope:
       path: ""
@@ -306,11 +324,3 @@ defaults:
     values:
       layout: single
       author_profile: true
-  # _netcore
-  - scope:
-      path: ""
-      type: netcore
-    values:
-      layout: single
-      author_profile: false
-      share: true

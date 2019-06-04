@@ -8,10 +8,16 @@ main:
     url: /sitemap/
 
 side-bar:
-  - title: "Collection"
+  - title: "分类"
     children:
       - title: "NetCore"
-        url: /netcore/
+        url: /category/netcore/
+      - title: "Unity"
+        url: /category/unity/
+      - title: "Web"
+        url: /category/web/
+      - title: "Tool"
+        url: /category/tool/
 
   - title: "归档"
     children:
