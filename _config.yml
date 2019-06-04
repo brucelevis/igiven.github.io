@@ -17,10 +17,10 @@ minimal_mistakes_skin    : "contrast" # "air", "aqua", "contrast", "dark", "dirt
 
 # Site Settings
 locale                   : "zh-CN"
-title                    : "IGiven title"
+title                    : "I Given"
 title_separator          : "-"
-name                     : "IGiven name"
-description              : "An amazing website."
+name                     : "I Given"
+description              : "专注码农一百年,dotnet,netcore,dotnetty,abp,unity,web,apache"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
