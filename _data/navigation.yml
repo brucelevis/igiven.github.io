@@ -24,17 +24,13 @@ side-bar:
       - title: "Categories"
         url: /categories/
       - title: "Collection"
-        url: /collection-archive/
+        url: /collections/
       - title: "Page Archive"
-        url: /page-archive/
-      - title: "Post Archive with Feature Rows"
-        url: /post-archive-feature-rows/
-      - title: "Recipes"
-        url: /recipes/
+        url: /pages/
       - title: "Tags"
         url: /tags/
       - title: "Posts by Year"
-        url: /year-archive/
+        url: /years/
 
   - title: "友情链接"
     children:
