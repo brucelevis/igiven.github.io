@@ -5,6 +5,8 @@
 layout: home
 permalink: /
 author_profile: false
+paginate: 5
+paginate_path: /page:num/
 sidebar:
   nav: "side-bar"
 ---
