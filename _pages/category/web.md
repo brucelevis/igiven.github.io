@@ -1,7 +1,7 @@
 ---
 title: WEB
 layout: category
-permalink: /category/web/
+permalink: /categorys/web/
 taxonomy: web
 entries_layout: list
 classes: wide

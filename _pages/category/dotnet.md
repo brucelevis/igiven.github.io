@@ -1,7 +1,7 @@
 ---
 title: DotNet
 layout: category
-permalink: /category/dotnet/
+permalink: /categorys/dotnet/
 taxonomy: dotnet
 entries_layout: list
 classes: wide
