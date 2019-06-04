@@ -35,3 +35,10 @@ side-bar:
         url: /tags/
       - title: "Posts by Year"
         url: /year-archive/
+
+  - title: "友情链接"
+    children:
+      - title: "github"
+        url: https://github.com/zhepama/igiven.github.io
+  
+
