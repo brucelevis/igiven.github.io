@@ -4,8 +4,7 @@ main:
     url: /
   - title: "关于"
     url: /about/
-  - title: "站点地图"
-    url: /sitemap/
+
 
 side-bar:
   - title: "分类"
@@ -31,6 +30,8 @@ side-bar:
         url: /tags/
       - title: "Posts by Year"
         url: /years/
+      - title: "站点地图"
+        url: /sitemap/
 
   - title: "友情链接"
     children:
