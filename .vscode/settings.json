@@ -1,2 +1,5 @@
 {
+
+    "MarkdownPaste.path": "${workspaceRoot}/assets/images/2019/",
+    "MarkdownPaste.silence": false,
 }
