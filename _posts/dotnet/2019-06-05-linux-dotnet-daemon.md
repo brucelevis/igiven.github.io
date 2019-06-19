@@ -62,5 +62,3 @@ systemctl restart jenkins
 lower_case_table_names = 0 //mysql会根据表名直接操作，大小写敏感。 
 lower_case_table_names = 1 //mysql会先把表名转为小写，再执行操作。 
 ```
-
-![](../../assets/images/2019/2019-06-20-04-36-07.png)
