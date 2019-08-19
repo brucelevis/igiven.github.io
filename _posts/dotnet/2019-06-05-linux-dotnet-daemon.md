@@ -38,14 +38,17 @@ sudo journalctl -fu KestrelDemoSer.service  //查看日志
 ```
 
 ## jenkins
-```
+```shell
 sudo systemctl stop edu
 sudo dotnet publish -c Release ${WORKSPACE}/src/Edu.Web/Edu.Web.csproj -o /usr/local/src/edu
 sudo systemctl start edu
 ```
 
+### efcore update
 
+```shell
 dotnet ef database update --context Edu.EntityFrameworkCore.EduMigrationsDbContext --startup-project ./src/Edu.Web/Edu.Web.csproj --project ./src/Edu.EntityFrameworkCore.DbMigrations/Edu.EntityFrameworkCore.DbMigrations.csproj   -v
+```
 
 不能使用sudo的解决办法
 

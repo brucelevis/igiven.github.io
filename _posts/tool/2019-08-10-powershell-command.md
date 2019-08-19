@@ -11,3 +11,4 @@ title:  "powershell 常用命令"
 - get-command   查看命令信息 可以查看某个命令的path  get-command mysqldump
 - invoke-item  向windows桌面双击操作一样打开某个文件或者目录
 - $env:path -split ";"  列出所有path
+
