@@ -2,7 +2,7 @@
 title:  "scourcetree  总是需要输入密码"
 ---
 
-
+## Git密钥存储相关
 
 幸运的是，Git 拥有一个凭证系统来处理这个事情。 下面有一些 Git 的选项：
 
@@ -16,15 +16,17 @@ title:  "scourcetree  总是需要输入密码"
 
 - 如果你使用的是 Windows，你可以安装一个叫做 “winstore” 的辅助工具。 这和上面说的 “osxkeychain” 十分类似，但是是使用 Windows Credential Store 来控制敏感信息。 可以在 [https://gitcredentialstore.codeplex.com](https://gitcredentialstore.codeplex.com/) 下载。
 
-  
 
 `git config --global credential.helper store --file ~/.git-credentials`
 
- 
+ ## 同网站多账号的问题
 
 如果同一个网站有多个账号..查看->选项->验证
 
-编辑那个网站的账号,就会新建一个用户名@xxx.com的账号..然后把那个公用的删除
+- 编辑那个网站的账号,就会新建一个用户名@xxx.com的账号
+- 然后把那个公用的删除
 
-[https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%87%AD%E8%AF%81%E5%AD%98%E5%82%A8](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%87%AD%E8%AF%81%E5%AD%98%E5%82%A8)
+## 相关链接
+
+- [https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%87%AD%E8%AF%81%E5%AD%98%E5%82%A8](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%87%AD%E8%AF%81%E5%AD%98%E5%82%A8)
 

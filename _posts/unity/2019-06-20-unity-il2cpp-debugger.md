@@ -3,34 +3,17 @@ title:  "Unity远程debugger和il2cpp"
 ---
 
 
-![](../../assets/images/2019-06-20-unity-il2cpp-debugger/2019-06-21-18-19-45.png)
+# iOS IL2CPP打包注意事项
 
-![](../../assets/images/2019-06-20-unity-il2cpp-debugger/2019-06-21-18-20-01.png)
-
-
-
-il2cpp  没有使用的字段都不会被编译..
-
-json反序列化的时候
-get
-set
-不能被使用
-
-
-优化
-1. 增量编译
-2. 关闭实时保护
-3. 使用ssd
-
-https://docs.unity3d.com/Manual/IL2CPP-OptimizingBuildTimes.html
-
-
-
-iOS IL2CPP打包注意事项
-===============
 鉴于IL2CPP的特殊性，实际在iOS的发布中可能会遇到一些问题，在这里给大家介绍几个iOS发布时可能会遇到的问题。
 
 IL2CPP和mono的最大区别就是不能在运行时动态生成代码和类型，所以这就要求必须在编译时就完全确定需要用到的类型。
+
+## 注意事项
+
+- il2cpp  没有使用的字段都不会被编译..
+
+- json反序列化的时候get,set不能被使用
 
 类型裁剪
 --------
@@ -54,3 +37,25 @@ Unity提供了一个方式来告诉Unity引擎，哪些类型是不能够被剪�
 在ILRuntime中解决这个问题有两种方式，一个是使用CLR绑定，把用到的泛型实例都进行CLR绑定。另外一个方式是在Unity主工程中，建立一个类，然后在里面定义用到的那些泛型实例的public变量。这两种方式都可以告诉IL2CPP保留这个类型的代码供运行中使用。
 
 因此建议大家在实际开发中，尽量使用热更DLL内部的类作为泛型参数，因为DLL内部的类型都是ILTypeInstance，只需处理一个就行了。此外如果泛型模版类就是在DLL里定义的的话，那就完全不需要进行任何处理。
+
+## 编译速度优化
+
+1. 增量编译
+2. 关闭实时保护
+3. 使用ssd
+
+https://docs.unity3d.com/Manual/IL2CPP-OptimizingBuildTimes.html
+
+# 关于如何进行unity远程debugger
+
+- 首先打开unity的debug模式
+
+
+![](../../assets/images/2019-06-20-unity-il2cpp-debugger/2019-06-21-18-19-45.png)
+
+- 开启visual sudio中找到attach unity debugger
+
+![](../../assets/images/2019-06-20-unity-il2cpp-debugger/2019-06-21-18-20-01.png)
+
+
+
