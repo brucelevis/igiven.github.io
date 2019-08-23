@@ -3,9 +3,9 @@ title:  "Unity远程debugger和il2cpp"
 ---
 
 
-![](../../assets/images/2019/2019-06-21-18-19-45.png)
+![](../../assets/images/2019-06-20-unity-il2cpp-debugger/2019-06-21-18-19-45.png)
 
-![](../../assets/images/2019/2019-06-21-18-20-01.png)
+![](../../assets/images/2019-06-20-unity-il2cpp-debugger/2019-06-21-18-20-01.png)
 
 
 

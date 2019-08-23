@@ -13,5 +13,5 @@ title:  "windows发送到手机Ftp"
 `C:\Users\zhepama\AppData\Roaming\Microsoft\Windows\SendTo`
 
 
-![](../../assets/images/2019/2019-06-21-18-29-28.png)
+![](../../assets/images/2019-06-20-windows-send-to-ftp/2019-06-21-18-29-28.png)
 

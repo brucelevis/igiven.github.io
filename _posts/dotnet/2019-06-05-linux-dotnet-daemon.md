@@ -64,7 +64,9 @@ systemctl restart jenkins
 ## mysql 
 从windows迁移到linux时..mysql数据库的表明可能会有大小写敏感的问题
 修改mysql配置my.ini
+
 ```
 lower_case_table_names = 0 //mysql会根据表名直接操作，大小写敏感。 
 lower_case_table_names = 1 //mysql会先把表名转为小写，再执行操作。 
 ```
+
