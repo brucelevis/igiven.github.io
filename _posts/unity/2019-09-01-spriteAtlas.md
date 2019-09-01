@@ -36,23 +36,10 @@ Unity合大图的时机是根据设置来的。*Edit->ProjectSetting->Editor*
 
 
 
-注意:SpriteAtlas.atlasRequested只会请求一次无论成功还是失败,所以要确保你的atlasRequested回调一定能返回正确的值
+注意:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- SpriteAtlas.atlasRequested只会请求一次无论成功还是失败,所以要确保你的atlasRequested回调一定能返回正确的值
+- 当使用addressable异步加载spriteatlas的时候,也会触发SpriteAtlas.atlasRequested,这个时候内存中可能会存在两份资源的引用..记得释放其中的一份
 
 
 
