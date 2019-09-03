@@ -12,8 +12,8 @@ IL2CPP和mono的最大区别就是不能在运行时动态生成代码和类型�
 ## 注意事项
 
 - il2cpp  没有使用的字段都不会被编译..
-
 - json反序列化的时候get,set不能被使用
+- 不要用dynamic关键字
 
 类型裁剪
 --------
@@ -38,13 +38,26 @@ Unity提供了一个方式来告诉Unity引擎，哪些类型是不能够被剪�
 
 因此建议大家在实际开发中，尽量使用热更DLL内部的类作为泛型参数，因为DLL内部的类型都是ILTypeInstance，只需处理一个就行了。此外如果泛型模版类就是在DLL里定义的的话，那就完全不需要进行任何处理。
 
+## IL2CPP限制
+
+将游戏导出到 iOS 等平台时，Unity 将使用其 IL2CPP 引擎将 IL“转换”为 C++ 代码，然后使用目标平台的本机编译器进行编译。 在此方案中，有几个不支持的 .NET 功能，例如反射的部分内容和使用 `dynamic` 关键字。 虽然可在自己的代码中使用这些功能，但使用第三方 DLL 和 SDK 时可能会遇到问题，这些 DLL 和 SDK 并非使用 Unity 和 IL2CPP 编写。 有关此主题的详细信息，请参阅 Unity 站点上的[脚本限制](https://docs.unity3d.com/Manual/ScriptingRestrictions.html)文档。
+
+此外，如之前 Json.NET 示例中所述，Unity 将尝试在 IL2CPP 导出过程中裁剪掉未使用的代码。 虽然这通常不是问题，但对于使用反射的库，它可能会意外地删除在导出时无法确定是否被调用而在运行时可能被调用的属性或方法。 若要解决这些问题，请添加一个 link.xml 文件到项目中，该文件中包含的程序集和命名空间列表不会执行裁剪过程。 有关完整详细信息，请参阅[有关字节码裁剪的 Unity 文档](https://docs.unity3d.com/Manual/IL2CPP-BytecodeStripping.html)。
+
 ## 编译速度优化
 
 1. 增量编译
 2. 关闭实时保护
 3. 使用ssd
 
-https://docs.unity3d.com/Manual/IL2CPP-OptimizingBuildTimes.html
+## 相关链接
+
+- https://docs.microsoft.com/en-us/visualstudio/cross-platform/unity-scripting-upgrade?view=vs-2019
+- https://docs.unity3d.com/Manual/IL2CPP-OptimizingBuildTimes.html
+- https://docs.unity3d.com/Manual/IL2CPP-BytecodeStripping.html
+- https://docs.unity3d.com/Manual/ScriptingRestrictions.html
+
+
 
 # 关于如何进行unity远程debugger
 

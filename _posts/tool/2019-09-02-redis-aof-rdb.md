@@ -1,6 +1,5 @@
 ---
 title:  "Redis的两种持久化RDB和AOF"
-
 ---
 
 Redis 分别提供了 RDB 和 AOF 两种持久化机制：
