@@ -51,11 +51,11 @@ title:  "unity的宏以及添加net框架中未引用的dll"
 
 在“API 兼容级别”下拉列表中使用 .NET Standard 2.0 设置时，将引用和使用 API 配置文件中的所有程序集。 但是，在使用较大的 .NET 4.x 配置文件时，默认情况下不会引用 Unity 附带的某些程序集。 若要使用这些 API，必须手动添加程序集引用。 可在 Unity 编辑器安装的 MonoBleedingEdge/lib/mono 目录中查看 Unity 附带的程序集：
 
-![MonoBleedingEdge 目录](../../assets/images/2019-09-02-unity-/vstu_monobleedingedge.png)
+![MonoBleedingEdge 目录](../../assets/images/2019-09-02-unity-reference-dll/vstu_monobleedingedge.png)
 
 例如，如果使用的是 .NET 4.x 配置文件且希望使用 `HttpClient`，则必须为 System.Net.Http.dll 添加程序集引用。 如果没有它，编译器将报错，指示缺少程序集引用：
 
-![缺少程序集引用](../../assets/images/2019-09-02-unity-/vstu_missing-reference.png)
+![缺少程序集引用](../../assets/images/2019-09-02-unity-reference-dll/vstu_missing-reference.png)
 
 每次打开 Unity 项目时 Visual Studio 都会为其重新生成 .csproj 和 .sln 文件。 因此，无法直接在 Visual Studio 中添加程序集引用，因为它们将在重新打开项目时丢失。 相反，必须使用名为 mcs.rsp 的特殊文本文件：
 
