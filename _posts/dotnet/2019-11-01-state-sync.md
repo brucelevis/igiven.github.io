@@ -188,3 +188,292 @@ leave:玩家离开地图，将玩家从对应的格子里面删除，同时通�
 对于对象在地图上的enter,move,leave 。根据前面的思路就变得非常简单
 
 -  https://github.com/zhepama/AOI 
+
+### **十字链表基本原理**
+
+根据二维地图，将其分成x轴和y轴两个链表。如果是三维地图，则还需要维护多一个z轴的链表。将对象的坐标值按照从小到大相应的排列在相应的坐标轴上面。
+
+- 添加到AOI（ADD）: 根据新增对象的X,Y坐标,依次遍历X,Y轴坐标链表,这里有两个目的,一个是获得这个新增对象的坐标在X,Y轴坐标的位置,另一方面获得该通知哪些结点.通知的范围,每个对象可以自己定制自己的通知范围。必须X,Y坐标同时都在通知范围内才可以进入通知集合，我们要按照从小到大进行插入。例如X轴坐标为:
+
+a->b->c->d->e->f->g->h
+
+假设新增一个对象z,它最终所在的位置是c和d之间,需要重新在链表的头部开始遍历寻找z的位置，比如z的X轴位置是5：
+
+a(0)->b(1)->c(2)->d(3)->e(4)-z(5)->f(6)->g(7)->h(8)
+
+但是这样会发现一个问题，如果需要管理的坐标少还可以。但如果有很多个坐标比如1W个坐标，那这个链表会很长，如果每次都需要从头部开始查找效率就很低。针对这样的插入方法目前大家常用的有快速排序、分治、按区域划分格子等方式。
+
+### **目前常用的排序算法**
+
+- 快速排序（Quicksort）是对[冒泡排序](https://link.zhihu.com/?target=https%3A//baike.baidu.com/item/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/4602306)的一种改进。
+
+快速排序由C. A. R. Hoare在1962年提出。它的基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以[递归](https://link.zhihu.com/?target=https%3A//baike.baidu.com/item/%E9%80%92%E5%BD%92/1740695)进行，以此达到整个数据变成有序[序列](https://link.zhihu.com/?target=https%3A//baike.baidu.com/item/%E5%BA%8F%E5%88%97/1302588)。
+
+- 分治算法
+
+分治算法的基本思想是将一个规模为N的问题分解为K个规模较小的子问题，这些子问题相互独立且与原问题性质相同。求出子问题的解，就可得到原问题的解。即一种分目标完成程序算法，简单问题可用二分法完成。
+
+- 按区域划分格子
+
+该方法是把区域划分成多个格子，比如X坐标1到X坐标4为一个格子我们（暂时称之为A格子），坐标5到X坐标9为一个格子（暂时称之为B格子）。这样做的好处是，当你插入的坐标是2的时候，我们只需要遍历A格子里面的数据找到自己位置就可以了。
+
+综合以上三种方法，大家一眼就看出来了。是的，按区域划分格子的方式是目前最佳的方式。从时间复杂度等等所有方便都是这个最佳，但是这个方法也有一个很大的问题，用这样的方式插入是很快了，但查找范围内的坐标就变的很困难了。大家可以仔细考虑一下或者自己写一个DEMO。你马上会发现，当我知道我的位置的情况下，我该如何查找周围玩家呢，是的。这样的话十字链就没有什么用了。
+
+当然会有人说我在每个格子之间用链表进行连接就可以了，那么问题又来了。该如何连接，肯定有很复杂的代码才可以完成这样逻辑。就算是你能完成这个链表的连接，但这些逻辑会提升了时间复杂度。
+
+### **个人认为最佳解决方案（快慢针）：**
+
+所谓快慢针就是，总有一个指针快于一个指针。
+
+实现方式是，插入的时候把链表分成多份、比如链表长度为10，快的指针每次移动4个，然后对比当前节点如果位置小于的话，把慢指针指向快指针的位置，快指针继续向后面4个格子移动，直到找到大于的节点为止，这时候慢指针开始向前移动一个一个的对比位置就可以了。如果一直没有找到大于的节点，那就表示要插入的位置是当前链表最后的位置。
+
+相信大家已经看明白了，是的。这样的情况下效率就很高了，唯一的问题就是这个时间复杂度不稳定。使用这个方式，查找周围玩家直接前后查找移动就可以了。效率也非常高。
+
+快慢针实现：
+
+```text
+if (First == null)
+{
+      node.Link.YNode = AddFirst(AoiPool.Instance.Fetch<LinkedListNode<AoiNode>>(node).Value);
+}
+else
+{
+       var slowCursor = First;
+
+       var skip = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Count) /
+                     Convert.ToDouble(_skipCount)));
+
+       if (Last.Value.Position.Y > node.Position.Y)
+       {
+            for (var i = 0; i < _skipCount; i++)
+            {
+                 // 移动快指针
+
+                 var fastCursor = FastCursor(i * skip, skip);
+
+                 // 如果快指针的值小于插入的值，把快指针赋给慢指针，当做当前指针。
+
+                 if (fastCursor.Value.Position.Y <= node.Position.Y)
+                 {
+                       slowCursor = fastCursor;
+
+                            continue;
+                 }
+
+                 // 慢指针移动到快指针位置
+
+                 while (slowCursor != fastCursor)
+                 {
+                      if (slowCursor == null) break;
+
+                      if (slowCursor.Value.Position.Y >= node.Position.Y)
+                      {
+                           node.Link.YNode = AddBefore(slowCursor,
+                                    AoiPool.Instance.Fetch<LinkedListNode<AoiNode>>(node).Value);
+
+                           return;
+                        }
+
+                       slowCursor = slowCursor.Next;
+
+                        }
+                    }
+                }
+
+if (node.Link.YNode == null)
+{
+       node.Link.YNode = AddLast(AoiPool.Instance.Fetch<LinkedListNode<AoiNode>>(node).Value);
+}
+```
+
+### **实现方式**
+
+- Move（当角色移动后通知AOI）：
+
+```text
+#region 移动X轴
+
+            if (Math.Abs(node.Position.X - x) > 0)
+            {
+                if (x > node.Position.X)
+                {
+                    var cur = node.Link.XNode.Next;
+
+                    while (cur != null)
+                    {
+                        if (x < cur.Value.Position.X)
+                        {
+                            _xLinks.Remove(node.Link.XNode);
+
+                            node.Position.X = x;
+                            
+                            node.Link.XNode = _xLinks.AddBefore(cur, node);
+
+                            break;
+                        }
+                        else if (cur.Next == null)
+                        {
+                            _xLinks.Remove(node.Link.XNode);
+                            
+                            node.Position.X = x;
+                            
+                            node.Link.XNode = _xLinks.AddAfter(cur, node);
+
+                            break;
+                        }
+
+                        cur = cur.Next;
+                    }
+                }
+                else
+                {
+                    var cur = node.Link.XNode.Previous;
+
+                    while (cur != null)
+                    {
+                        if (x > cur.Value.Position.X)
+                        {
+                            _xLinks.Remove(node.Link.XNode);
+                            
+                            node.Position.X = x;
+                            
+                            node.Link.XNode = _xLinks.AddBefore(cur, node);
+
+                            break;
+                        }
+                        else if (cur.Previous == null)
+                        {
+                            _xLinks.Remove(node.Link.XNode);
+                            
+                            node.Position.X = x;
+                            
+                            node.Link.XNode = _xLinks.AddAfter(cur, node);
+
+                            break;
+                        }
+
+                        cur = cur.Previous;
+                    }
+                }
+            }
+
+            #endregion
+
+            #region 移动Y轴
+
+            if (Math.Abs(node.Position.Y - y) > 0)
+            {
+                if (y > node.Position.Y)
+                {
+                    var cur = node.Link.YNode.Next;
+
+                    while (cur != null)
+                    {
+                        if (y < cur.Value.Position.Y)
+                        {
+                            _yLinks.Remove(node.Link.YNode);
+                            
+                            node.Position.Y = y;
+                            
+                            node.Link.YNode = _yLinks.AddBefore(cur, node);
+
+                            break;
+                        }
+                        else if (cur.Next == null)
+                        {
+                            _yLinks.Remove(node.Link.YNode);
+                            
+                            node.Position.Y = y;
+                            
+                            node.Link.YNode = _yLinks.AddAfter(cur, node);
+
+                            break;
+                        }
+
+                        cur = cur.Next;
+                    }
+                }
+                else
+                {
+                    var cur = node.Link.YNode.Previous;
+
+                    while (cur != null)
+                    {
+                        if (y > cur.Value.Position.Y)
+                        {
+                            _yLinks.Remove(node.Link.YNode);
+                            
+                            node.Position.Y = y;
+                            
+                            node.Link.YNode = _yLinks.AddBefore(cur, node);
+
+                            break;
+                        }
+                        else if (cur.Previous == null)
+                        {
+                            _yLinks.Remove(node.Link.YNode);
+                            
+                            node.Position.Y = y;
+                            
+                            node.Link.YNode = _yLinks.AddAfter(cur, node);
+
+                            break;
+                        }
+
+                        cur = cur.Previous;
+                    }
+                }
+            }
+
+            
+            #end-region
+```
+
+- 查找周围（按照指定的范围查找自己周围玩家）：
+
+```text
+for (var i = 0; i < 2; i++)
+            {
+                var cur = i == 0 ? node.Link.XNode.Next : node.Link.XNode.Previous;
+
+                while (cur != null)
+                {
+                    if (Math.Abs(Math.Abs(cur.Value.Position.X) - Math.Abs(node.Position.X)) > area.X)
+                    {
+                        break;
+                    }
+                    else if (Math.Abs(Math.Abs(cur.Value.Position.Y) - Math.Abs(node.Position.Y)) <= area.Y)
+                    {
+                        if (Distance(node.Position, cur.Value.Position) <= area.X)
+                        {
+                            if (!node.AoiInfo.MovesSet.Contains(cur.Value.Id)) node.AoiInfo.MovesSet.Add(cur.Value.Id);
+                        }
+                    }
+
+                    cur = i == 0 ? cur.Next : cur.Previous;
+                }
+            }
+
+            for (var i = 0; i < 2; i++)
+            {
+               var cur = i == 0 ? node.Link.YNode.Next : node.Link.YNode.Previous;
+
+                while (cur != null)
+                {
+                    if (Math.Abs(Math.Abs(cur.Value.Position.Y) - Math.Abs(node.Position.Y)) > area.Y)
+                    {
+                        break;
+                    }
+                    else if (Math.Abs(Math.Abs(cur.Value.Position.X) - Math.Abs(node.Position.X)) <= area.X)
+                    {
+                        if (Distance(node.Position, cur.Value.Position) <= area.Y)
+                        {
+                            if (!node.AoiInfo.MovesSet.Contains(cur.Value.Id)) node.AoiInfo.MovesSet.Add(cur.Value.Id);
+                        }
+                    }
+
+                    cur = i == 0 ? cur.Next :cur.Previous;
+                }
+            }
+```
+
