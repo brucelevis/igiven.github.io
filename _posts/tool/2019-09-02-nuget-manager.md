@@ -2,20 +2,6 @@
 title:  "使用配置文件来管理NuGet包版本F"	
 ---
 
-
-
-
-
-
-
-
-
-一个项目会引用很多的包,升级起来会很头疼,先上个连接
-
-
-
-
-
 先创建一个文件`Directory.Build.props`
 
 ```
@@ -33,10 +19,6 @@ title:  "使用配置文件来管理NuGet包版本F"
   <PackageReference Include="Kritner.SolarProjection" Version="$(NuGet-Kritner-SolarProjection)" />
 </ItemGroup>
 ```
-
-
-
-
 
 ### 相关连接
 

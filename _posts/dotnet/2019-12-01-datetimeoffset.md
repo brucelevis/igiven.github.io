@@ -1,3 +1,8 @@
+---
+title:  "DatetimeOffset和Datetime的区别"
+---
+
+
 ```
   [Fact]
         public void TestDatetimeoffset2()
@@ -27,8 +32,6 @@
 ```
 
 上面的值是不等的
-
-
 
 
 
