@@ -644,8 +644,379 @@ public class TriangleTest : MonoBehaviour {
 
 
 
+
+
+# 凸多边形碰撞(分离轴定理算法)
+
+***正文如下：\***
+
+![多边形碰撞](../../assets/images/2020-01-13-unity-attack-detection/20170204235932265.jpg)
+
+分离轴定理（英文简称SAT）是一项用于检测凸多边形碰撞的技术。
+
+我绝不是这个方面的专家，但当检测碰撞的需求出现在我面前之后，我做了大量的阅读并最终在ActionScript 3中实现了它。
+
+我想，我应该把我所学到的分享给大家，希望大家不会在这方面被坑得很惨：）
+
+当我发现我需要在flash中检测多边形碰撞时，我碰巧地遇到了一个叫“分离轴定理”的方法。但唯一的问题是，为了真正地掌握它，我可费了不少功夫。
+
+在阅读了大量有关碰撞检测的资料，并参看了一些代码示例后，这个方法总算被我领悟了。
+
+为了帮助其他那些不精通数学的开发者，我想我应该写下这一篇能快速阐明这个算法工作原理的简短介绍。我还在下文引入了一个使用分离轴定理实现的demo，以及供大家下载并使用的ActionScript 3源代码。**（译者：demo和源代码请到原文中查看和下载）**
+
+注意：分离轴定理需要一点数学向量的知识，所以在深究这个算法前，你最好复习一下这方面的内容。
+
+# 算法简述
+
+从根本上来讲，分离轴定理（以及其他碰撞算法）的用途就是去检测并判断两个图形之间是否有间隙。分离轴定理中用到的方法使算法本身显得十分独特。
+
+我所听到过分离轴定理的最好类比方式是这样的：
+
+假想你拿一个电筒从不同的角度照射到两个图形上，那么会有怎样的一系列的阴影投射到它们之后的墙壁上呢？
+
+![投影问题](../../assets/images/2020-01-13-unity-attack-detection/20170205000242395.jpg)
+
+如果你用这个方式从每一个角度上对这两个图形进行处理，并都找不到任何的间隙，那么这两个图形就一定接触。如果你找到了一个间隙，那么这两个图形就显而易见地没有接触。
+
+从编程的角度来讲，从每个可能的角度上去检测会使处理变得十分密集。不过幸运的是，由于多边形的性质，你只需要检测其中几个关键的角度。
+
+你需要检测的角度数量就正是这个多边形的边数。也就是说，你所需检测的角度最大数量就是你要检测碰撞的两个多边形边数之和。举个例子，两个五边形就需要检测10个角度。
+
+![角度选取](../../assets/images/2020-01-13-unity-attack-detection/20170205000357272.jpg)
+
+# 如何在代码中实现
+
+这是一个简易但比较啰嗦的方法，以下是基本的步骤：
+
+**步骤一：**从需要检测的多边形中取出一条边，并找出它的法向量（垂直于它的向量），这个向量将会是我们的一个“投影轴”。
+
+![步骤一图解](../../assets/images/2020-01-13-unity-attack-detection/20170205000919294.jpg)
+
+**步骤二：**循环获取第一个多边形的每个点，并将它们投影到这个轴上。（记录这个多边形投影到轴上的最高和最低点）
+
+![步骤二图解](../../assets/images/2020-01-13-unity-attack-detection/20170205001546835.jpg)
+
+**步骤三：**对第二个多边形做同样的处理。
+
+![步骤三图解](../../assets/images/2020-01-13-unity-attack-detection/20170205001940563.jpg)
+
+**步骤四：**分别得到这两个多边形的投影，并检测这两段投影是否重叠。
+
+![步骤四图解](../../assets/images/2020-01-13-unity-attack-detection/20170205002051627.jpg)
+
+如果你发现了这两个投影到轴上的“阴影”有间隙，那么这两个图形一定没有相交。但如果没有间隙，那么它们则可能接触，你需要继续检测直到把两个多边形的每条边都检测完。如果你检测完每条边后，都没有发现任何间隙，那么它们是相互碰撞的。
+
+这个算法基本就是如此的。
+
+顺带提一下，如果你记录了哪个轴上的投影重叠值最小（以及重叠了多少），那么你就能用这个值来分开这两个图形。
+
+## 那么如何处理圆呢？
+
+在分离轴定理中，检测圆与检测多边形相比，会有点点奇异，但仍然是可以实现的。
+
+最值得注意的是，圆是没有任何的边，所以是没有明显的用于投影的轴。但它有一条“不是很明显的”的投影轴。这条轴就是途经圆心和多边形上离圆心最近的顶点的直线。
+
+![圆的投影轴](../../assets/images/2020-01-13-unity-attack-detection/20170205002152799.jpg)
+
+在这以后就是按套路遍历另一个多边形的每条投影轴，并检测是否有投影重叠。
+
+噢，对了，万一你想知道如何把圆投影到轴上，那你只用简单地把圆心投影上去，然后加上和减去半径就能得到投影长度了。
+
+# 优点与不足
+
+和其他的碰撞检测技术一样，分离轴定理算法有它自己的优点和不足。以下是其一些优点和不足的简要概述：
+
+## 优点
+
+（译者：原来老外也喜欢先谈优点啊～>～）
+
+- 分离轴定理算法十分得快——它完美地使用了基本的数学向量知识。只要间隙一旦被检测出来，那么你就能马上得出结果，消除不必要的运算。
+- 分离轴定理算法十分得准——至少据我所知是这样的。（译者：突然感觉作者好不靠谱啊，囧……）
+
+## 不足
+
+- 分离轴定理算法只适用于凸多边形——复杂的图形（译者：指的是凹多边形，比如五角星）无法使用此方法，除非你把它们分成一些小的凸多边形，然后依次检验这些小的多边形。
+- 分离轴定理算法无法告诉你是那条边发生的碰撞——仅仅是告诉你重叠了多少和分开它们所需的最短距离。
+
+可能这个算法会有更多优点和不足之处，但是我想这应该是最主要的几个了。
+
+# 总结
+
+我希望这篇文章能帮助你了解到分离轴定理算法。我已经尽可能地不提供过多的信息并讲解得十分简明了。（我绝不是数学方面的专家，所以如果我遗漏了什么，我深表歉意）
+
+以下是一些帮助我理解分离轴定理算法的页面：
+
+- [harverycartel.org](http://www.harveycartel.org/metanet/tutorials/tutorialA.html)——有更多详细的表述以及很多很酷的示例。我在这个页面上学到了很多。
+- [GPWiki.org](http://gpwiki.org/index.php/VB:Tutorials:Building_A_Physics_Engine:Basic_Intersection_Detection)——有不错的讲解和代码示例，我用这些代码作为编写自己代码的基础。
+- [Tony Pa](http://www.tonypa.pri.ee/vectors/index.html)——向量教程，学习向量的不错资源。
+- [GameDev.net forum](http://www.gamedev.net/community/forums/topic.asp?topic_id=251638)——一个论坛成员写的分离轴定理碰撞检测系统，带给了我一些计算方面的想法。
+
+**本文翻译自[@sevenson](http://www.sevenson.com.au/)的文章[Separating Axis Theorem (SAT) Explanation](http://www.sevenson.com.au/actionscript/sat/) 。**
+
+```
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class XRect{
+    private Vector2 _point0 = new Vector2();
+    private Vector2 _point1 = new Vector2();
+    private Vector2 _point2 = new Vector2();
+    private Vector2 _point3 = new Vector2();
+
+    public List<Vector2> _pointList = new List<Vector2>();
+
+    private float _min = 0;
+    private float _max = 0;
+
+
+    public void UpdatePoint(RectTransform RT)
+    {
+        float x = RT.localPosition.x;
+        float y = RT.localPosition.y;
+        float width = RT.sizeDelta.x;
+        float height = RT.sizeDelta.y;
+        float angle = RT.localRotation.eulerAngles.z;
+
+        Vector2 centerV = new Vector2(RT.localPosition.x, RT.localPosition.y);
+
+        _point0 = new Vector2(x - width / 2, y + height / 2);
+        _point0 = _Transform(_point0,angle,centerV);
+
+        _point1 = new Vector2(x + width / 2, y + height / 2);
+        _point1 = _Transform(_point1, angle, centerV);
+
+        _point2 = new Vector2(x + width / 2, y - height / 2);
+        _point2 = _Transform(_point2, angle, centerV);
+
+        _point3 = new Vector2(x - width / 2, y - height / 2);
+        _point3 = _Transform(_point3, angle, centerV);
+
+        _pointList.Clear();
+        _pointList.Add(_point0);
+        _pointList.Add(_point1);
+        _pointList.Add(_point2);
+        _pointList.Add(_point3);
+
+        Vector3[] temp = new Vector3[4];
+        RT.GetLocalCorners(temp);
+       
+    }
+
+    //获取投影轴
+    public Vector2 GetAxis(int index)
+    {
+        Vector2 v = _GetEdge(index);
+
+        Vector2 result = new Vector2();
+
+        result.x = v.y;
+        result.y = 0 - v.x;
+
+        return result;
+    }
+
+    public void ResetProjection(Vector2 axis)
+    {
+        if (axis.x == 0 && axis.y == 0)
+        {
+            Debug.LogError("投影轴数据错误！");
+            return;
+        }
+        float projectionX;
+        Vector2 v;
+        for (int i = 0; i < _pointList.Count; ++i)
+        {
+            v = _pointList[i];
+            if (axis.x == 0)
+            {
+                projectionX = v.y;
+            }
+            else if (axis.y == 0)
+            {
+                projectionX = v.x;
+            }
+            else
+            {
+                projectionX = (v.x - axis.x / axis.y * v.y) / (1 + Mathf.Pow(axis.x / axis.y, 2));
+            }
+
+
+            if (i == 0)
+            {
+                _min = projectionX;
+                _max = projectionX;
+            }
+            else
+            {
+                if (projectionX > _max)
+                {
+                    _max = projectionX;
+                }
+                if (projectionX < _min)
+                {
+                    _min = projectionX;
+                }
+            }
+
+        } 
+    }
+
+    public float GetMin()
+    {
+        return _min;
+    }
+
+    public float GetMax()
+    {
+        return _max;
+    }
+
+
+    //获取边向量
+    private Vector2 _GetEdge(int index)
+    {
+        Vector2 result = new Vector2();
+        switch (index)
+        {
+            case 0:
+                result = _point1 - _point0;
+                break;
+            case 1:
+                result = _point2 - _point1;
+                break;
+            case 2:
+                result = _point3 - _point2;
+                break;
+            case 3:
+                result = _point0 - _point3;
+                break;
+        }
+
+        return result;
+    }
+
+    private Vector2 _Transform(Vector2 v,float angle,Vector2 centerV)
+    {
+        Vector2 result = new Vector2();
+
+        float initX = v.x;
+        float initY = v.y;
+
+        //将顶点移动到原点四周
+        float centerPointX = initX - centerV.x;
+        float centerPointY = initY - centerV.y;
+
+        float r = angle * Mathf.Deg2Rad;
+
+        float a = Mathf.Cos(r);
+        float b = Mathf.Sin(r);
+
+        result.x = centerPointX * a + centerPointY * (-b) + centerV.x;
+        result.y = centerPointX * b + centerPointY * a + centerV.y;
+
+        return result;
+    }
+
+
+```
+
+```
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class XCollisionHelper {
+
+    private static XCollisionHelper _instance;
+
+    public static XCollisionHelper GetInstance()
+    {
+        if (_instance  == null)
+        {
+            _instance = new XCollisionHelper();
+        }
+
+        return _instance;
+    }
+
+    public bool Check(XRect xRect1,XRect xRect2)
+    {
+        for (int i = 0; i <4;++i)
+        {
+            Vector2 axis = xRect1.GetAxis(i);
+
+            //获取两个矩形在投影轴上的范围
+            xRect1.ResetProjection(axis);
+            xRect2.ResetProjection(axis);
+
+            if (xRect1.GetMin() > xRect2.GetMax() || xRect1.GetMax() < xRect2.GetMin())
+            {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < 4; ++i)
+        {
+            Vector2 axis = xRect2.GetAxis(i);
+
+            xRect1.ResetProjection(axis);
+            xRect2.ResetProjection(axis);
+
+            if (xRect1.GetMin() > xRect2.GetMax() || xRect1.GetMax() < xRect2.GetMin())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+
+}
+```
+
+```
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class XRectItemCtrl : MonoBehaviour, IDragHandler
+{
+
+    public Image imgRect;
+    private XRect _xRect = new XRect();
+
+    public XRect GetXRect()
+    {
+        RectTransform RT = transform.GetComponent<RectTransform>();
+        _xRect.UpdatePoint(RT);
+
+        if (transform.gameObject.name == "Image0")
+        {
+        }
+
+        return _xRect;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        RectTransform RT = transform.GetComponent<RectTransform>();
+        RT.localPosition = new Vector2(RT.localPosition.x + eventData.delta.x, RT.localPosition.y + eventData.delta.y);
+    }
+}
+```
+
+
+
+
+
 # 其他的一些参考
 
 - [](https://github.com/irixapps/Unity-Line-Triangle-Collision)
 - [](https://github.com/dmanning23/CollisionBuddy)
 - [](https://github.com/dotnet-ad/Humper)
+- [](https://github.com/xiaolangfensi/Collision)
