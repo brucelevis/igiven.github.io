@@ -124,13 +124,94 @@ collector.Deactivate();
 
 
 
+# Jenny
+
+jenny使用了roslyn, DataProviders需要更改下,否则会报错..
+
+```
+Jenny.SearchPaths = Assets\Plugins\DesperateDevs\Editor\Plugins, \
+                    Assets\Plugins\Entitas\Editor\Plugins, \
+                    Jenny\Plugins\Entitas.Roslyn
+
+Jenny.Plugins = DesperateDevs.CodeGeneration.Plugins, \
+                DesperateDevs.CodeGeneration.Unity.Plugins, \
+                Entitas.CodeGeneration.Plugins, \
+                Entitas.Roslyn.CodeGeneration.Plugins, \
+                Entitas.VisualDebugging.CodeGeneration.Plugins
+
+Jenny.PreProcessors = DesperateDevs.CodeGeneration.Plugins.ValidateProjectPathPreProcessor, \
+                      DesperateDevs.CodeGeneration.Plugins.TargetFrameworkProfilePreProcessor
+
+Jenny.DataProviders = Entitas.CodeGeneration.Plugins.ContextDataProvider, \
+                      Entitas.Roslyn.CodeGeneration.Plugins.CleanupDataProvider, \
+                      Entitas.Roslyn.CodeGeneration.Plugins.ComponentDataProvider, \
+                      Entitas.Roslyn.CodeGeneration.Plugins.EntityIndexDataProvider
+
+Jenny.CodeGenerators = Entitas.CodeGeneration.Plugins.ComponentContextApiGenerator, \
+                       Entitas.CodeGeneration.Plugins.ComponentEntityApiGenerator, \
+                       Entitas.CodeGeneration.Plugins.ComponentEntityApiInterfaceGenerator, \
+                       Entitas.CodeGeneration.Plugins.ComponentGenerator, \
+                       Entitas.CodeGeneration.Plugins.ComponentLookupGenerator, \
+                       Entitas.CodeGeneration.Plugins.ComponentMatcherApiGenerator, \
+                       Entitas.CodeGeneration.Plugins.ContextAttributeGenerator, \
+                       Entitas.CodeGeneration.Plugins.ContextGenerator, \
+                       Entitas.CodeGeneration.Plugins.ContextMatcherGenerator, \
+                       Entitas.CodeGeneration.Plugins.ContextsGenerator, \
+                       Entitas.CodeGeneration.Plugins.EntityGenerator, \
+                       Entitas.CodeGeneration.Plugins.EntityIndexGenerator, \
+                       Entitas.CodeGeneration.Plugins.EventEntityApiGenerator, \
+                       Entitas.CodeGeneration.Plugins.EventListenerComponentGenerator, \
+                       Entitas.CodeGeneration.Plugins.EventListenertInterfaceGenerator, \
+                       Entitas.CodeGeneration.Plugins.EventSystemGenerator, \
+                       Entitas.CodeGeneration.Plugins.EventSystemsGenerator, \
+                       Entitas.Roslyn.CodeGeneration.Plugins.CleanupSystemGenerator, \
+                       Entitas.Roslyn.CodeGeneration.Plugins.CleanupSystemsGenerator, \
+                       Entitas.VisualDebugging.CodeGeneration.Plugins.ContextObserverGenerator, \
+                       Entitas.VisualDebugging.CodeGeneration.Plugins.FeatureClassGenerator
+
+Jenny.PostProcessors = DesperateDevs.CodeGeneration.Plugins.AddFileHeaderPostProcessor, \
+                       DesperateDevs.CodeGeneration.Plugins.CleanTargetDirectoryPostProcessor, \
+                       DesperateDevs.CodeGeneration.Plugins.MergeFilesPostProcessor, \
+                       DesperateDevs.CodeGeneration.Plugins.NewLinePostProcessor, \
+                       DesperateDevs.CodeGeneration.Plugins.UpdateCSProjPostProcessor, \
+                       DesperateDevs.CodeGeneration.Plugins.WriteToDiskPostProcessor, \
+                       DesperateDevs.CodeGeneration.Plugins.ConsoleWriteLinePostProcessor
+
+Jenny.Server.Port = 3333
+Jenny.Client.Host = localhost
+DesperateDevs.CodeGeneration.Plugins.ProjectPath = Assembly-CSharp.csproj
+Entitas.CodeGeneration.Plugins.Assemblies = Library/ScriptAssemblies/Assembly-CSharp.dll
+Entitas.CodeGeneration.Plugins.Contexts = Game, \
+                                          Unit, \
+                                          Combat, \
+                                          Config, \
+                                          Input
+
+Entitas.CodeGeneration.Plugins.IgnoreNamespaces = true
+DesperateDevs.CodeGeneration.Plugins.TargetDirectory = Assets/Scripts/World
+
+
+```
+
+一般来说.先运行Jenny-Auto-Import.bat.再运行Jenny-Server.bat就可以了
+
+查看所有命令:
+
+```
+.\Jenny\Jenny.exe help 
+```
 
 
 
+以VStudio为例，创建一个外部工具：
 
+![img](../../assets/images/2020-01-01-unity-entitas/v2-d49876b0ae0100844a372dfb16508b27_hd.jpg)
 
+再之后，想要生成代码只需要保持运行`Jenny Server` 然后在VS中运行`工具/Jenny` 就可以了，这个方法可以让你专注于VS而无需切换回Unity。
 
+`jenny.exe client gen`需要服务器才能使用
 
+`jenny gen` 不开服务器直接可以使用
 
 
 
