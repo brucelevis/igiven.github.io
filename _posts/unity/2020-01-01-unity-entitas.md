@@ -120,7 +120,42 @@ collector.Deactivate();
 
 
 
+# 事件
 
+### 关于replace都干了什么
+
+Group具有事件 `OnEntityAdded`, `OnEntityRemoved` and `OnEntityUpdated` 可以直接对组的更改做出反应。
+
+看源码
+
+```
+ public void UpdateEntity(TEntity entity, int index, IComponent previousComponent, IComponent newComponent) {
+            if (_entities.Contains(entity)) {
+                if (OnEntityRemoved != null) {
+                    OnEntityRemoved(this, entity, index, previousComponent);
+                }
+                if (OnEntityAdded != null) {
+                    OnEntityAdded(this, entity, index, newComponent);
+                }
+                if (OnEntityUpdated != null) {
+                    OnEntityUpdated(
+                        this, entity, index, previousComponent, newComponent
+                    );
+                }
+            }
+        }
+```
+
+在替换一个组件的时候..会先remove,然后add,再update
+
+### group和collect,还有event应该在什么地方添加.
+
+- 在系统中的构造函数中
+- 在entitan的system初始化Initialize前
+
+因为初始化系统大多会有add,remove等动作.为了保持你的group,还有collect,还有event能够监听到.
+
+所以最好在Initialize前
 
 
 
