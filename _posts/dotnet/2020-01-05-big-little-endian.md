@@ -1,5 +1,5 @@
 ---
-title: "大小端字节序(Big Endian和Little Endian)"
+title:  "大小端字节序(Big Endian和Little Endian)"
 ---
 
  
