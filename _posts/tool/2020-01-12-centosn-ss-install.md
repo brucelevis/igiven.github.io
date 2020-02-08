@@ -1,5 +1,5 @@
 ---
-title:"CentOS 下安装Shadowsocks 搭建ss"
+title:  "CentOS 下安装Shadowsocks 搭建ss"
 ---
 
 CentOS 7 开始默认使用[Systemd](https://en.wikipedia.org/wiki/Systemd)作为开启启动脚本的管理工具，[Shadowsocks](https://github.com/shadowsocks/)则是当前比较受欢迎的科学上网工具，本文将介绍如何在 CentOS 下安装和配置 Shadowsocks 服务。
