@@ -6,12 +6,12 @@ title:  "快节奏多人游戏同步(4)-延时补偿"
 
 之前三篇文章主要解释了关于 client-server 游戏架构，总结起来大概就是以下这些：
 
-- 服务器从所有的客户端获取带着时间戳的输入
-- 服务器负责处理所有输入并更新游戏世界的状态
+- 服务器从客户端收到带有时间戳的输入信息；
+- 服务器处理输入并且更新世界状态；
 - 服务器向所有客户端发送游戏世界的快照
-- 客户端发送输入并自己模拟该输入造成的结果
+- 客户端发送输入并且模拟游戏的结果；
 - 客户端获取世界更新
-  - 将客户端自行预测的状态更新到与服务器一致的状态
+  - 将自身预测的状态和服务器发送来的状态进行同步；
   - 将其他客户端控制的实体插值到过去的状态
 
 从玩家的角度来看，以上行为会导致两个重要的结果：
@@ -19,7 +19,7 @@ title:  "快节奏多人游戏同步(4)-延时补偿"
 - 玩家看到 **自己** 处于 **现在**
 - 玩家看到 **其他玩家** 处于 **过去**
 
-通常来说这种情况并没有什么问题，但是在时间或空间敏感的状况下不太适合，比如说爆头之类的
+这其实并没有什么大不了的问题，但是对于时间和空间非常敏感的事件就会造成很大的问题；比如在射击游戏中爆掉敌人的头！
 
 ## PART 2 延时补偿
 
@@ -33,14 +33,12 @@ title:  "快节奏多人游戏同步(4)-延时补偿"
 
 在某种程度上相当于你在一个光速非常非常慢的宇宙中进行游戏，你瞄准的是敌人过去的位置，当你扣下扳机的时候他早就走远了。。
 
-幸运的是，有一个相当简单的方案可以让大多数玩家在大多数情况下满意（下面会解释）
-
-方法如下：
+比较幸运的是有一个相对简单的解决方案，对几乎所有的玩家都是友好的，下面来解释一下它的工作流程：
 
 - 开火的时候，客户端发送开火指令到服务器，同时包含开火的一瞬间确切的时间和方向。
-- **至关重要的一步**，服务器获取到所有带有时间戳的输入后，服务器可以重新构建过去任何时刻的游戏状态。尤其是可以精确的重建任何客户端在任何时间点看到的游戏状态
-- 这意味着服务器可以确切的知道在你射击的一刹那你的枪瞄准的到底是什么，虽然那是你的目标的过去的位置，但是服务器知道你瞄准的就是你的目标在你自己的「当前时间」所在的位置
-- 服务器处理「该时间点」的射击行为并更新每个客户端
+- 这是关键的一步。由于服务器获取所有带有时间戳的输入，因此它可以在过去的任何时刻重构世界。特别是，它可以在任何时间点按照任何客户端眼中的样子重建世界。
+- 这意味着服务器可以准确地知道你开枪的那一刻你的武器瞄准了什么。这是你的敌人过去的头部位置，但服务器知道这是他的头部在你当前客户端所在的位置。
+- 服务器在该时间点处理快照，并更新客户端。
 
 于是皆大欢喜～
 
@@ -75,3 +73,12 @@ http://www.gabrielgambetta.com/client-side-prediction-live-demo.html
 [What Every Programmer Needs to Know About Game Networking](http://gafferongames.com/networking-for-game-programmers/what-every-programmer-needs-to-know-about-game-networking/)
 
  [Latency Compensating Methods in Client/Server In-game Protocol Design and Optimization](https://developer.valvesoftware.com/wiki/Latency_Compensating_Methods_in_Client/Server_In-game_Protocol_Design_and_Optimization).
+
+
+
+https://github.com/search?l=C%23&q=lag+compensation&type=Repositories
+
+https://github.com/search?l=C%23&p=1&q=Fast-Paced+Multiplayer&type=Repositories
+
+https://github.com/JoaoBorks/unity-fastpacedmultiplayer
+
