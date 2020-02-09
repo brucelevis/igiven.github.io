@@ -76,9 +76,14 @@ http://www.gabrielgambetta.com/client-side-prediction-live-demo.html
 
 
 
+
+
+https://link.springer.com/article/10.1007/s00530-012-0271-3#Sec17
+
 https://github.com/search?l=C%23&q=lag+compensation&type=Repositories
 
 https://github.com/search?l=C%23&p=1&q=Fast-Paced+Multiplayer&type=Repositories
 
 https://github.com/JoaoBorks/unity-fastpacedmultiplayer
 
+https://github.com/gamestdio/timeline
