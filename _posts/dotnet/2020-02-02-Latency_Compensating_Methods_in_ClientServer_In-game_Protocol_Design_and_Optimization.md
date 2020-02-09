@@ -67,18 +67,18 @@ title:  "延迟补偿在C/S架构游戏协议设计和优化中的应用"
 typedef struct usercmd_s
 {
     // Interpolation time on client
-    shortlerp_msec;  
+    short lerp_msec;  
     // Duration in ms of command
-    bytemsec;    
+    byte msec;    
     // Command view angles.
-    vec3_tviewangles;  
+    vec3_t viewangles;  
     // intended velocities
     // Forward velocity.
-    floatforwardmove;  
+    float forwardmove;  
     // Sideways velocity.
-    floatsidemove;   
+    float sidemove;   
     // Upward velocity.
-    floatupmove;  
+    float upmove;  
     // Attack buttons
     unsigned short buttons; 
     //
