@@ -46,13 +46,6 @@ git config --global credential.helper manager
 
 
 
- ## 同网站多账号的问题
-
-如果同一个网站有多个账号..查看->选项->验证
-
-- 编辑那个网站的账号,就会新建一个用户名@xxx.com的账号
-- 然后把那个公用的删除
-
 
 
 # SourceTree删除GIT密码
@@ -75,6 +68,15 @@ windows存储的初始密码账号不对，导致每次请求远程url都会报�
 本地删除当前用户目录下保存密码的文件，文件路径：
 C:\Users\wuxiaoyuan\AppData\Local\Atlassian\SourceTree\passwd
 清空文件内容即可
+
+
+
+# 同网站多账号的问题
+
+如果同一个网站有多个账号..查看->选项->验证
+
+- 编辑那个网站的账号,就会新建一个用户名@xxx.com的账号
+- 然后把那个公用的删除
 
 
 
