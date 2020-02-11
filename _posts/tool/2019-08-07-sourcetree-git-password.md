@@ -48,6 +48,15 @@ manager
 - 编辑那个网站的账号,就会新建一个用户名@xxx.com的账号
 - 然后把那个公用的删除
 
+
+
+# SourceTree删除GIT密码
+
+当GIT服务器修改密码后，sourcetree本地记住的密码，会导致提交代码失败。
+本地删除当前用户目录下保存密码的文件，文件路径：
+C:\Users\wuxiaoyuan\AppData\Local\Atlassian\SourceTree\passwd
+清空文件内容即可
+
 ## 相关链接
 
 - [https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%87%AD%E8%AF%81%E5%AD%98%E5%82%A8](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%87%AD%E8%AF%81%E5%AD%98%E5%82%A8)
