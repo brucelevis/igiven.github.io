@@ -12,6 +12,8 @@ title:  "scourcetree  总是需要输入密码"
 - 如果你使用的是 Mac，Git 还有一种 “osxkeychain” 模式，它会将凭证缓存到你系统用户的钥匙串中。 这种方式将凭证存放在磁盘中，并且永不过期，但是是被加密的，这种加密方式与存放 HTTPS 凭证以及 Safari 的自动填写是相同的。
 - 如果你使用的是 Windows，你可以安装一个叫做 “winstore” 的辅助工具。 这和上面说的 “osxkeychain” 十分类似，但是是使用 Windows Credential Store 来控制敏感信息。 可以在 [https://gitcredentialstore.codeplex.com](https://gitcredentialstore.codeplex.com/) 下载。
 
+### store的使用
+
 `git config --global credential.helper store `
 
 “store” 模式可以接受一个 `--file <path>` 参数，可以自定义存放密码的文件路径（默认是 `~/.git-credentials` ）
@@ -37,10 +39,7 @@ https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/latest
 下载安装完后可以通过命令进行查看是否生效
 
 ```
-git config --global credential.helper
 git config --global credential.helper manager
-返回
-manager
 ```
 
 控制面板\用户帐户\凭据管理器可以查看
