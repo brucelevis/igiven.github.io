@@ -16,6 +16,10 @@ title:  "scourcetree  总是需要输入密码"
 
 “store” 模式可以接受一个 `--file <path>` 参数，可以自定义存放密码的文件路径（默认是 `~/.git-credentials` ）
 
+
+
+###  微软特有的Git Credential Manager
+
 WINDOS部分版本的GIT会提示
 
 ```
@@ -39,6 +43,8 @@ git config --global credential.helper manager
 manager
 ```
 
+控制面板\用户帐户\凭据管理器可以查看
+
 
 
  ## 同网站多账号的问题
@@ -52,10 +58,26 @@ manager
 
 # SourceTree删除GIT密码
 
+## store
+
+删除~/.git-credentials
+
+
+
+## manager
+
+windows存储的初始密码账号不对，导致每次请求远程url都会报错，我们要到控制面板\用户帐户\凭据管理器中手动更改我们的credential凭证;如下，是我的凭证配置；只需要编辑下即可，当然你也可以删除你要请求的远程的凭证,我没试过，当你git pull，GIT会让你输入一次用户明和密码，以后每次请求，GIT会从windows凭证中查找；![在这里插入图片描述](../../assets/images/2019-08-07-sourcetree-git-password/20190404111514753.png)
+
+
+
+## 其他
+
 当GIT服务器修改密码后，sourcetree本地记住的密码，会导致提交代码失败。
 本地删除当前用户目录下保存密码的文件，文件路径：
 C:\Users\wuxiaoyuan\AppData\Local\Atlassian\SourceTree\passwd
 清空文件内容即可
+
+
 
 ## 相关链接
 
