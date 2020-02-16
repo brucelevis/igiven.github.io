@@ -34,6 +34,8 @@ context.CreateCollector(Matcher.AllOf(1,2));
 这样会生成两个Matcher相同的Group实例。
 如果在意这一点的话可以自己对Matcher进行缓存。
 
+5. 在Entitas-CSharp中，我们不会真的删除或者添加一个Component。生成出来的代码会先向用户请求新的值，触发移除component的事件，设置一个新的值给这个component，然后触发一次增加component的事件。用这个方法，我们就避免了内存的分配以及模拟了一个在使用`不可修改`（immutable）component的感觉。
+
 # Group
 
 在Context中可以对Entity进行快速过滤，它能不断的更新以保持当前的组中的Entity是最新的。假设Context有上千个Entities，但只有两个Entities拥有PositionComponent，那只要向Context询问特定的组就能立刻获取到所有符合的Entity。
@@ -118,6 +120,98 @@ collector.Deactivate();
 
 我们在`GetTrigger`方法中返回了一个监测了`Destroyed`Entity的Collector。在`context.CreateCollector(GameMatcher.Destroyed)` 中，我们不需要指定当一个Entity何时应当被收集的事件，因为默认就是会收集在`Added`情况下被通知到的Entity。所以当我们增加一个`Destroyed`组件到一个Entity上时，这个Entity会`添加`到`Destroyed`的group里面，并因此被对应的collector收集到对应的reactive system里面。
 
+如下面的代码,AddDebugMessage就会被DebugMessageSystem收集了...
+
+执行RemoveDebugMessage()但是DebugMessageSystem仍然收集着呢,但是该实体已经没有了组件DebugMessage.所以需要过滤下Filter(GameEntity entity)否则收集的数据会报错
+
+```c#
+using Entitas;
+
+public class HelloWorldSystem : IInitializeSystem
+{
+    // always handy to keep a reference to the context 
+    // we're going to be interacting with it
+    readonly GameContext _context;
+
+    public HelloWorldSystem(Contexts contexts)
+    {
+        // get the context from the constructor
+        _context = contexts.game;
+    }
+
+    public void Initialize()
+    {
+        // create an entity and give it a DebugMessageComponent with
+        // the text "Hello World!" as its data
+
+        var e = _context.CreateEntity();
+        e.AddDebugMessage("Hello World!");
+        e.RemoveDebugMessage(); 
+    }
+}
+
+
+```
+
+
+
+```
+using System.Collections.Generic;
+using Entitas;
+using UnityEngine;
+
+public class DebugMessageSystem : ReactiveSystem<GameEntity>
+{
+    public DebugMessageSystem(Contexts contexts) : base(contexts.game)
+    {
+    }
+
+    protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
+    {
+        // we only care about entities with DebugMessageComponent 
+        return context.CreateCollector(GameMatcher.DebugMessage);
+    }
+
+    protected override bool Filter(GameEntity entity)
+    {
+        // good practice to perform a final check in case 
+        // the entity has been altered in a different system.
+        return entity.hasDebugMessage;
+    }
+
+    protected override void Execute(List<GameEntity> entities)
+    {
+        // this is the list of entities that meet our conditions
+        foreach (var e in entities)
+        {
+            // we can safely access their DebugMessage component
+            // then grab the string data and print it
+            Debug.Log(e.debugMessage.message);
+        }
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # 事件
@@ -146,7 +240,7 @@ Group具有事件 `OnEntityAdded`, `OnEntityRemoved` and `OnEntityUpdated` 可�
         }
 ```
 
-在替换一个组件的时候..会先remove,然后add,再update
+在Entitas-CSharp中，我们不会真的删除或者添加一个Component。生成出来的代码会先向用户请求新的值，触发移除component的事件，设置一个新的值给这个component，然后触发一次增加component的事件。用这个方法，我们就避免了内存的分配以及模拟了一个在使用`不可修改`（immutable）component的感觉。
 
 ### group和collect,还有event应该在什么地方添加.
 
