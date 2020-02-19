@@ -105,19 +105,19 @@ typedef struct usercmd_s
 
 在半条命这个游戏中，客户端跟服务器采用相同的代码来计算移动，这样可以减小客户端预测跟服务器之间的误差。这些代码位于HLSDK中的pm_shared/（意思是“player movement shared”）。这段代码的输入是玩家操作和客户端的初始状态，输出是玩家操作以后的状态。客户端算法大致如下：
 
-```
+```c#
 "from state" <- state after last user command acknowledged by the server;
 
 "command" <- first command after last user command acknowledged by server;
 
 while (true)
 {
-run "command" on "from state" to generate "to state";
-if (this was the most up to date "command")
-break;
+    run "command" on "from state" to generate "to state";
+    if (this was the most up to date "command")
+    break;
 
-"from state" = "to state";
-"command" = next "command";
+    "from state" = "to state";
+    "command" = next "command";
 };
 ```
 
