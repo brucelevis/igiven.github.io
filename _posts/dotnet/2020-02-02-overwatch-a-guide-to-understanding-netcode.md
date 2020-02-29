@@ -2,10 +2,6 @@
 title:  "守望先锋等FPS游戏的网络同步"
 ---
 
-
-
-
-
 在一个采用C/S架构的游戏中，客户端和服务端的游戏状态有差异是不可避免的。客户端和服务端各自都维护了一份游戏状态。这两份游戏状态依赖网络包通信保持同步。但由于各客户端到服务端的时延具有不确定性，游戏状态同步变得非常困难。通常服务端在游戏拓扑中承载的是状态仲裁者的角色，客户端玩家看到的“经验证”的有效游戏状态总是延后于服务端的游戏状态。
 
 网络时延是必然存在的，所以游戏状态的不同步也是必然存在的。但我们可以通过技术手段尽量减轻不同步问题对用户体验带来的影响。
@@ -78,7 +74,22 @@ ClientDelay = (1/2 * Latency) + InterpolationDelay
 
 
 
+**延迟改进**
+
+暴雪表示会采用一些技术来改进延迟的情况：
+
+- 把网络状况相近的玩家匹配到一起，这样相对公平
+- 提供60帧tick的服务器，目前是20帧的服务器
+- 网络稳定时候，直接使用客户端指令，而不是缓存48ms的
+- 网络波动时候，回溯加一个上限，比如250ms，不再是无限回溯了
 
 
-https://www.gamereplays.org/overwatch/portals.php?show=page&name=overwatch-a-guide-to-understanding-netcode
 
+- [Overwatch - Gameplay Architecture and Netcode - GDCVault](https://www.gdcvault.com/play/1024001/-Overwatch-Gameplay-Architecture-and)
+- [《守望先锋》架构设计与网络同步 - GAD](http://gad.qq.com/article/detail/28682)
+- [《守望先锋》中的网络脚本化的武器和技能系统 - GAD](http://gad.qq.com/article/detail/28219)
+- [Networking Scripted Weapons and Abilities in Overwatch - GDC Vault](https://www.gdcvault.com/play/1024653/Networking-Scripted-Weapons-and-Abilities)
+- [浅谈《守望先锋》中的 ECS 架构 - 云风的 BLOG](https://blog.codingnow.com/2017/06/overwatch_ecs.html)
+- [GDC 2017 技术选荐合辑 - 知乎专栏](https://zhuanlan.zhihu.com/p/25703934)
+- [守望先锋等 FPS 游戏的网络同步 - 知乎专栏](https://zhuanlan.zhihu.com/p/28825322)
+- [A guide to understanding netcode - GAMEREPLAYS.ORG](https://www.gamereplays.org/overwatch/portals.php?show=page&name=overwatch-a-guide-to-understanding-netcode)

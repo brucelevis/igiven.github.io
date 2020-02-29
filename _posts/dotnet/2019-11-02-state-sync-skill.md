@@ -26,3 +26,16 @@ https://gameinstitute.qq.com/course/detail/10112
 
 https://gameinstitute.qq.com/course/detail/10100
 
+
+
+
+
+https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools:zh-cn/Scripting:zh-cn/Abilities_Data_Driven:zh-cn
+
+
+
+https://zhuanlan.zhihu.com/p/38326478
+
+
+
+https://zhuanlan.zhihu.com/p/38605352
