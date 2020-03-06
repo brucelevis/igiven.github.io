@@ -138,3 +138,10 @@ https://patents.google.com/patent/CN102404279A/zh
 
 https://patents.google.com/patent/CN102739608A/zh
 
+
+
+
+
+## 一些模拟恶劣网络环境工具
+
+- http://jagt.github.io/clumsy/cn/index.html
