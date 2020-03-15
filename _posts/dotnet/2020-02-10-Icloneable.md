@@ -131,6 +131,56 @@ StudentSecond ss= JsonConvert.DeserializeObject<StudentSecond>(JsonConvert.Seria
 
 
 
+http://wiki.unity3d.com/index.php/ObjectCopier
+
+```
+using System;
+using System.Collections;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+ 
+/// <summary>
+/// Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx
+/// 
+/// Provides a method for performing a deep copy of an object.
+/// Binary Serialization is used to perform the copy.
+/// </summary>
+public static class ObjectCopier
+{
+    /// <summary>
+    /// Perform a deep Copy of the object.
+    /// </summary>
+    /// <typeparam name="T">The type of object being copied.</typeparam>
+    /// <param name="source">The object instance to copy.</param>
+    /// <returns>The copied object.</returns>
+    public static T Clone<T>(this T source)
+    {
+        if (!typeof(T).IsSerializable)
+        {
+            throw new ArgumentException("The type must be serializable.", "source");
+        }
+ 
+        // Don't serialize a null object, simply return the default for that object
+        if (Object.ReferenceEquals(source, null))
+        {
+            return default(T);
+        }
+ 
+        IFormatter formatter = new BinaryFormatter();
+        Stream stream = new MemoryStream();
+        using (stream)
+        {
+            formatter.Serialize(stream, source);
+            stream.Seek(0, SeekOrigin.Begin);
+            return (T)formatter.Deserialize(stream);
+        }
+     }
+}
+```
+
+
+
 5. 使用IL进行克隆
 
 一种罕见的解决方案是使用IL（中间语言）来进行对象克隆。这种方式创建一个动态方法（DynamicMethod），获取中间语言生成器 （ILGenerator），向方法中注入代码，把它编译成一个委托，然后执行这个委托。委托会被缓存，因此中间语言只在初次克隆的时候才会生成，后续的 克隆都不会重新生成一遍。尽管这种方法比使用反射快，但是这种方法难以理解和维护。示例代码
