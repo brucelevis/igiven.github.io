@@ -22,7 +22,7 @@ CLR是不和模块工作的，它和程序集工作，如下
 
 在方法执行前，CLR会检测代码引用的所有类型，然后分配一个内部数据结构来管理引用访问，在这个数据结构中每个方法会有一个对应的记录项，每个记录项都包含地址，根据地址找到函数的实现，CLR将每个记录项都设置成（指向）一个内部的未编档函数，即JITCompiler当方法首次调用WriteLine时，JITCompiler会被调用，将方法的IL代码编译为本机的CPU指令。当方法第一次被调用时，JIT编译器会验证IL代码，当第二次时，由于第一次已经完成了验证和编译，所以第二次会直接执行。
 
-关于CLR的部署，打包等我不做赘述，因为，我是做Unity的，所以涉及的比较少，所以我还是记录下和Unity有关的问题：
+
 
 1.Mono
 
@@ -32,27 +32,7 @@ mono即基于.NET Framework 的开源实现，基于C#的ECMA标准，包含C#�
 
 因为它使用了CIL（Common Intermediate Language）的通用中间语言，也叫MSIL的指令集，CIL可以在任何支持CLI（Common Language Infrastructure）“通用语言基础结构”的环境下运行，由于CIL能运行在所有支持CLI的环境中，比如.net运行时或者mono运行时，也就是说和具体的平台或者CPU无关。
 
-3.CIL的编译过程
-
-AOT提前编译和JIT即时编译（从代码本身到CIL，还会编译成一种位元码，但我就不赘述了），这也引出了unity热更新的问题，因为在ios平台上，mono无法使用JIT引擎，而是以Full AOT的模式运行的（如下图，不包含ios）
-
-![img](../../assets/images/2020-02-12-netcore-mono-netframework/v2-08ce82b0a23a267e4a9235e5c3d438b3_1440w.jpg)
-
-JIT编译属于即时编译，即程序执行时才编译，解释一条，执行一条，但也因为这样有了一些效率上的问题，所以mono会有一部分代码是AOT进行静态编译的，目的就是为了降低JIT编译的效率问题，但是ios平台是不允许这种编译的，所以unity没有提供热更新方案，而安卓Dalvik虚拟机用的就是JIT方案，所以没有这个问题
-
-AOT提前编译
-
-AOT编译在程序执行前进行，但是mono的AOT和JIT并不是对立的，AOT同样也用JIT进行编译，只不过是程序执行前就已经编译好了，但是有一部分还会通过JIT进行动态编译
-
-AOT执行过程：
-
-收集要被编译的方法-->使用JIT进行编译-->发射（Emitting）经过JIT编译的代码和其他信息-->直接生成文件或者调用本地汇编器进行处理后生成文件。
-
-Full AOT
-
-如上，ios是禁止使用JIT的，但是mono的AOT还是会保留一部分代码会在运行时编译，为了破解这个问题，mono提供了Full AOT的模式，即预先对程序集中的所有CIL代码进行AOT编译生成映像，然后运行时直接加载这个映像而不在使用JIT。（实际上ios并不是直接把JIT禁止了，而是封了JIT内存的可执行权限），所以ios也是无法动态加载dll的。
-
-
+ 
 
 
 
@@ -152,5 +132,5 @@ Unity 5.5.0 b4里面API compability Level增加了一个4.6选项，其实是把
 
 - https://www.cnblogs.com/w-wfy/p/7450167.html
 - https://blog.csdn.net/wzjssssssssss/article/details/80196314
-- https://zhuanlan.zhihu.com/p/60412017
 
+  

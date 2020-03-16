@@ -6,7 +6,7 @@ title:  "Unity远程debugger和il2cpp"
 
 
 
-1. unity是运行在mono下的,il2cpp有自己的运行时
+1. unity是运行在mono下的,il2cpp有自己的运行时,il2cpp不是运行在mono下的不是mono的aot
 
 2. mono的gc和.net的gc是不同的,il2cpp运行时实现了自己的垃圾回收(Boehm-Demers-Weiser garbage collector)
 
