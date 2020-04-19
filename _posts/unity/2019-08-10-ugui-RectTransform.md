@@ -74,6 +74,58 @@ Pivot (0, 1)
 
 ![img](../../assets/images/2019-08-10-ugui-RectTransform/84177-b27df7bbe9d3c829.webp)
 
+
+
+pivot和text的填充
+
+![image-20200420000104602](../../assets/images/2019-08-10-ugui-RectTransform/image-20200420000104602.png)
+
+当pivot为0.5和0.5时数字的填充时以中心点向上下方向扩展rect
+
+![image-20200420000313192](../../assets/images/2019-08-10-ugui-RectTransform/image-20200420000313192.png)
+
+
+
+一般来讲,动态改变文本,为了使其按照从上到下,可以把pivot设置在左上角  0,1
+
+![image-20200420000549965](../../assets/images/2019-08-10-ugui-RectTransform/image-20200420000549965.png)
+
+
+
+点击上方的pivot可以切换pivot的所在位置
+
+center :rect的中心点
+
+pivot:pivot的点所在位置
+
+
+
+这同样适用于layout,下图设置成0,1.在中间位置添加panel,他会向下扩充,加上verticallayoutgroup和contentsizefitter两个组件
+
+![image-20200420013535477](../../assets/images/2019-08-10-ugui-RectTransform/image-20200420013535477.png)
+
+
+
+设置成0.5,0.5.他会向上下扩充
+
+![image-20200420013708207](../../assets/images/2019-08-10-ugui-RectTransform/image-20200420013708207.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 位置
 
 - `position`世界坐标是三维的全局坐标,一般作为基准坐标
@@ -112,6 +164,8 @@ Pivot (0, 1)
 rect属性同样是一个计算出来的值，但是它表示的是该rectTransform对应的矩形的相关信息。
 
 rect 的 x 和 y 返回左下角相对于pivot的距离,w 和 h 返回本身的宽高.
+
+注意:**Awake中Rectangle还没有初始化出来,所以不要在awake中获取rect**
 
 ### anchorMin 和 anchorMax
 
