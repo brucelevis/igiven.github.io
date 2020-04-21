@@ -1,5 +1,5 @@
 ---
-title:  "Unity远程debugger和il2cpp"
+title:  "Unity的il2cpp"
 ---
 
 
@@ -220,16 +220,7 @@ Unity提供了一个方式来告诉Unity引擎，哪些类型是不能够被剪�
 
 
 
-# 关于如何进行unity远程debugger
 
-- 首先打开unity的debug模式
-
-
-![](../../assets/images/2019-06-20-unity-il2cpp-debugger/2019-06-21-18-19-45.png)
-
-- 开启visual sudio中找到attach unity debugger
-
-![](../../assets/images/2019-06-20-unity-il2cpp-debugger/2019-06-21-18-20-01.png)
 
 
 
