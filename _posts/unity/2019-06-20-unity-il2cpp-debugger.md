@@ -164,7 +164,7 @@ IL2CPP和mono的最大区别就是不能在运行时动态生成代码和类型�
 ## 注意事项
 
 - il2cpp  没有使用的字段都不会被编译..
-- json反序列化的时候get,set不能被使用
+- json反序列化的时候get,set不能被使用,il2cpp 在运行时会剥离去除Get属性，你需要在工程中添加一个 link.xml告诉编译器不要优化掉Get属性
 - 不要用dynamic关键字
 - 注意泛型实例和泛型方法,可能会被裁剪..这个时候建立一个函数.手动调用下即可.[参见](https://docs.unity3d.com/Manual/ScriptingRestrictions.html)
 
@@ -183,8 +183,19 @@ Unity提供了一个方式来告诉Unity引擎，哪些类型是不能够被剪�
 </linker>
 ```
 
+1.  Could not produce class with ID 91 - iOS   https://forum.unity.com/threads/could-not-produce-class-with-id-91-ios.267548/  https://docs.unity3d.com/Manual/ClassIDReference.html?_ga=2.247344388.1426750911.1591144361-844881506.1584838305  https://www.cnblogs.com/zhaoqingqing/p/6080075.html
+2. odin  新建一个场景把一些scriptobject拖到场景中扫描一下
+3. protobuf   `**Unable to resolve MapDecorator constructor**.`  同时注意不要用属性{get;set;}..如果Dictionary的key为int也会出这个问题..未找到解决办法 ,用class代替
+
+F:\GouYuJian\GYJClient\Library\com.unity.addressables\aa\Android\link.xml
+
+http://www.dishanphilips.com/protobuf-net-generics-on-unity3d-il2cpp/
+
+4.  System.MissingMethodException: Default constructor not found for type ServerReconciliation...这个是没有被明显的引用添加到link.xml中ServerReconciliationhttps://docs.unity3d.com/Manual/ManagedCodeStripping.html
+
 泛型实例
 ---------
+
 每个泛型实例实际上都是一个独立的类型，`List<A>` 和 `List<B>`是两个完全没有关系的类型，这意味着，如果在运行时无法通过JIT来创建新类型的话，代码中没有直接使用过的泛型实例都会在运行时出现问题。
 
 在ILRuntime中解决这个问题有两种方式，一个是使用CLR绑定，把用到的泛型实例都进行CLR绑定。另外一个方式是在Unity主工程中，建立一个类，然后在里面定义用到的那些泛型实例的public变量。这两种方式都可以告诉IL2CPP保留这个类型的代码供运行中使用。
