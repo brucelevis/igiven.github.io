@@ -316,6 +316,12 @@ defaults:
       type: posts
     values:
       categories: web
+  #_posts-web
+  - scope:
+      path: "_posts/essay"
+      type: posts
+    values:
+      categories: essay
   # _pages
   - scope:
       path: ""
