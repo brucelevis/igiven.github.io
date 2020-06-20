@@ -17,6 +17,8 @@ side-bar:
         url: /categories/web/
       - title: "Tool"
         url: /categories/tool/
+      - title: "随笔"
+        url: /categories/essay/
 
   - title: "归档"
     children:

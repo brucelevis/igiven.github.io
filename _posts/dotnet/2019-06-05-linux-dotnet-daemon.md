@@ -1,5 +1,7 @@
 ---
 title:  "Linux部署dotnetcore记录"
+tags : [netcore,daemon]
+enabled : true
 ---
 ## Daemon
 Linux Daemon（守护进程）是运行在后台的一种特殊进程。它独立于控制终端并且周期性地执行某种任务或等待处理某些发生的事件。它不需要用户输入就能运行而且提供某种服务，不是对整个系统就是对某个用户程序提供服务。Linux系统的大多数服务器就是通过守护进程实现的。常见的守护进程包括系统日志进程syslogd、 web服务器httpd、邮件服务器sendmail和数据库服务器mysqld等...
@@ -70,4 +72,20 @@ systemctl restart jenkins
 lower_case_table_names = 0 //mysql会根据表名直接操作，大小写敏感。 
 lower_case_table_names = 1 //mysql会先把表名转为小写，再执行操作。 
 ```
+
+
+
+
+
+
+
+# windows下绝对路径启动问题
+
+注册成services后.他的启动目录是C:\Windows\System32..所以需要手动设置下contentRoot
+
+```
+F:\DotHass.Blog\aspnet-core\src\DotHass.Blog.Web\bin\Release\publish\DotHass.Blog.Web.exe --contentRoot F:\DotHass.Blog\aspnet-core\src\DotHass.Blog.Web\bin\Release\publish
+```
+
+如果启动失败..先查看错误日志..最好是用文件存储
 
