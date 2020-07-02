@@ -106,7 +106,7 @@ var childPosition = childObject.transform.position;
 //转化为父物体下的相对坐标，相当于位于父物体世界中
 var relativePosition = parentObject.transform.InverseTransformPoint(childPosition);
 //转化为世界坐标，注意：这里不能传入 childPosition ，因为 childPosition 就是世界坐标
-var worldPosition = parentObject.transform.InverseTransformPoint(relativePosition);
+var worldPosition = parentObject.transform.TransformPoint(relativePosition);
 
 //所以，下面结果是相等的！
 print(childPosition == worldPosition);
