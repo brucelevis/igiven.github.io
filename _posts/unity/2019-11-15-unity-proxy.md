@@ -9,14 +9,14 @@ Unity的AssetStore下载package的时候经常抽风，而且开了代理工具�
 具体步骤：
 
     打开 系统属性->高级->环境变量
-    新建 HTTPS_proxy 和 HTTP_proxy 系统变量，设置其为你的代理服务地址
+    新建 HTTPS_PROXY 和 HTTP_PROXY 系统变量，设置其为你的代理服务地址
     
-    例如公司的代理IP是：192.168.1.100 端口：8080 
-    变量名：HTTPS_proxy
-    变量值：https://192.168.1.100:8080
+    例如公司的代理IP是：127.0.0.1 端口：1080 
+    变量名：HTTPS_PROXY
+    变量值：https://127.0.0.1:1080
     
-    变量名：HTTP_proxy
-    变量值：https://192.168.1.100:8080
+    变量名：HTTP_PROXY
+    变量值：http://127.0.0.1:1080
 ![](../../assets/images/2019-11-15-unity-proxy/20190515220955161%5B1%5D.png)
 
 
